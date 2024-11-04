@@ -1,5 +1,11 @@
 {
     "udb_addons": {
+        "object-history": {
+            "description": "Show all changes to an object during its lifetime.",
+            "repo": "addons",
+            "script": "object_history/object_history.py",
+            "version_min": "7.0.0"
+        },
         "load-all-symbols": {
             "description": "Search a directory tree for debug symbols.",
             "repo": "addons",
