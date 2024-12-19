@@ -4,6 +4,14 @@ import os
 import re
 import gdb
 
+# Load in extra support if running on UDB
+try:
+    from addons.utils import AddonCommand
+except:
+    # Not running under UDB, or not fully installed.
+    class AddonCommand(gdb.Command):
+        pass
+
 # Pattern to match output of 'info files'
 pattern = re.compile(
     r"(?P<begin>[0x0-9a-fA-F]+)\s-\s(?P<end>[0x0-9a-fA-F]+)\s\bis\b\s(?P<section>\.[a-z]+$)"
@@ -35,7 +43,7 @@ def load_sym_file_at_addrs(dbg_file, smap):
     gdb.execute(cmd)
 
 
-class LoadDebugFile(gdb.Command):
+class LoadDebugFile(AddonCommand):
     """
     Loads the debug symbol file with the correct address for .text
     .data and .bss sections.
@@ -59,5 +67,6 @@ class LoadDebugFile(gdb.Command):
         section_map = parse_sections()
         load_sym_file_at_addrs(dbg_file, section_map)
 
-
+print("CREATING INSTANCE")
 LoadDebugFile()
+print("INSTANCE CREATED")
