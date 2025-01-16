@@ -1,1 +1,1 @@
-from .command import AddonCommand
+from .command import AddonCommand, locate_api

@@ -3,16 +3,18 @@ import sys
 
 import gdb
 
+def locate_api() -> None:
+    udb_api_paths = [p for p in sys.path if p.endswith("src/udbpy/public_api")]
+    if not udb_api_paths:
+        # Not running under UDB
+        raise ImportError
 
-udb_api_paths = [p for p in sys.path if p.endswith("src/udbpy/public_api")]
-if not udb_api_paths:
-    # Not running under UDB
-    raise ImportError
+    # Some evil to allow this script to call internal udbpy stuff
+    public_api_path = udb_api_paths[0]
+    path = pathlib.Path(public_api_path).parent.parent.parent
+    sys.path.append(str(path))
 
-# Some evil to allow this script to call internal udbpy stuff
-public_api_path = udb_api_paths[0]
-path = pathlib.Path(public_api_path).parent.parent.parent
-sys.path.append(str(path))
+locate_api()
 from src.udbpy.gdb_extensions import command, command_args, udb_base
 from undo.debugger_extensions import udb
 the_udb = udb._wrapped_udb
