@@ -77,6 +77,12 @@
             ],
             "python_package_dir": "systemc_trace_packages",
             "version_min": "8.2.0"
+        },
+        "configure-default": {
+            "description": "Set UDB as default debugger.",
+            "repo": "addons",
+            "script": "configure-default/configure-default.py",
+            "version_min": "8.2.0"
         }
     }
 }
